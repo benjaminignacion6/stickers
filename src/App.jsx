@@ -1,12 +1,30 @@
-﻿import './App.css'
+﻿import { useState } from 'react'
+import './App.css'
 import { stickers } from './data/stickers'
 import StickerCard from './components/StickerCard'
 
 function App() {
-  console.log('Figuritas:', stickers)
+  const [statuses, setStatuses] = useState(() =>
+    stickers.reduce((acc, sticker) => {
+      acc[sticker.id] = 'falta'
+      return acc
+    }, {})
+  )
 
   const previewStickers = stickers.slice(0, 5)
-  const statusByIndex = ['tengo', 'repetida', 'falta', 'tengo', 'repetida']
+
+  const handleStatusChange = (id) => {
+    setStatuses((current) => {
+      const order = ['falta', 'tengo', 'repetida']
+      const currentStatus = current[id] || 'falta'
+      const nextIndex = (order.indexOf(currentStatus) + 1) % order.length
+
+      return {
+        ...current,
+        [id]: order[nextIndex]
+      }
+    })
+  }
 
   return (
     <main style={{ padding: '1rem' }}>
@@ -23,13 +41,14 @@ function App() {
           marginTop: '1rem'
         }}
       >
-        {previewStickers.map((sticker, index) => (
+        {previewStickers.map((sticker) => (
           <StickerCard
             key={sticker.id}
             number={sticker.id}
             name={sticker.name}
             group={sticker.group || sticker.section}
-            status={statusByIndex[index]}
+            status={statuses[sticker.id] || 'falta'}
+            onClick={() => handleStatusChange(sticker.id)}
           />
         ))}
       </section>

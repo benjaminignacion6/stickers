@@ -1,4 +1,4 @@
-function StickerCard({ number, name, group, status }) {
+function StickerCard({ number, name, group, status, onClick }) {
   const normalizedStatus = status?.toLowerCase()
 
   const statusStyles = {
@@ -22,7 +22,9 @@ function StickerCard({ number, name, group, status }) {
   const style = statusStyles[normalizedStatus] || statusStyles.falta
 
   return (
-    <article
+    <button
+      type="button"
+      onClick={onClick}
       style={{
         background: style.background,
         border: `1px solid ${style.border}`,
@@ -30,7 +32,9 @@ function StickerCard({ number, name, group, status }) {
         padding: '0.9rem',
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.4rem'
+        gap: '0.4rem',
+        textAlign: 'left',
+        cursor: 'pointer'
       }}
     >
       <span style={{ fontSize: '0.8rem', fontWeight: '700', color: style.text }}>
@@ -51,7 +55,7 @@ function StickerCard({ number, name, group, status }) {
       >
         {normalizedStatus}
       </span>
-    </article>
+    </button>
   )
 }
 

@@ -1,28 +1,36 @@
-﻿import { useState } from 'react'
-import './App.css'
+﻿import './App.css'
 import { stickers } from './data/stickers'
+import StickerCard from './components/StickerCard'
 
 function App() {
-  const [count, setCount] = useState(0)
   console.log('Figuritas:', stickers)
+
+  const previewStickers = stickers.slice(0, 5)
+  const statusByIndex = ['tengo', 'repetida', 'falta', 'tengo', 'repetida']
 
   return (
     <main style={{ padding: '1rem' }}>
       <section>
         <h1>Álbum Mundial 2026</h1>
         <p>Figuritas cargadas: {stickers.length}</p>
-        <button onClick={() => setCount((value) => value + 1)}>
-          Count is {count}
-        </button>
       </section>
 
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', marginTop: '1rem' }}>
-        {stickers.map((sticker) => (
-          <article key={sticker.id} style={{ border: '1px solid #ddd', borderRadius: '8px', padding: '0.75rem' }}>
-            <strong>{sticker.code}</strong>
-            <p>{sticker.name}</p>
-            <small>{sticker.section}</small>
-          </article>
+      <section
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+          gap: '12px',
+          marginTop: '1rem'
+        }}
+      >
+        {previewStickers.map((sticker, index) => (
+          <StickerCard
+            key={sticker.id}
+            number={sticker.id}
+            name={sticker.name}
+            group={sticker.group || sticker.section}
+            status={statusByIndex[index]}
+          />
         ))}
       </section>
     </main>
